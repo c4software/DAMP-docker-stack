@@ -1,0 +1,54 @@
+version: "3.7"
+services:
+  web:
+    profiles:
+      - web
+      - default
+    build:
+      dockerfile: php.dockerfile
+      context: dockerfiles/
+    restart: unless-stopped
+    volumes:
+      - ${DAMP_HOME_DIRECTORY}data/htdocs/:/var/www/html/
+    ports:
+      - ${DAMP_WEB_PORT}:80
+
+  db:
+    profiles:
+      - db
+      - default
+    image: mariadb:10.9
+    restart: unless-stopped
+    ports:
+      - ${DAMP_DB_PORT}:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ${DAMP_HOME_DIRECTORY}data/mariadb/:/var/lib/mysql/
+
+  pma:
+    profiles:
+      - pma
+      - default
+    image: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - ${DAMP_PMA_PORT}:80
+    environment:
+      - PMA_ARBITRARY=0
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+
+  mongo:
+    profiles:
+      - mongo
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - ${DAMP_MONGO_PORT}:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - ${DAMP_HOME_DIRECTORY}data/mongodb/:/data/db
