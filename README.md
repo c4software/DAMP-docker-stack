@@ -7,6 +7,10 @@ Ce projet peut être utilisé tel quel :
 - en utilisant le script `startup.sh`.
 - ou via l'interface graphique [disponible ici](https://github.com/c4software/DAMP)
 
+## Support d'installation
+
+[Vous trouverez un guide d'installation ici](https://cours.brosseau.ovh/cheatsheets/damp/)
+
 ## Installation
 
 Pour fonctionner, vous devez :
