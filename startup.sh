@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source simple_curses.sh
-
 function get_free_port() {
   local start=$1
   local end=$2
@@ -13,12 +11,6 @@ function get_free_port() {
     fi
   done
   echo 0
-}
-
-readKey(){
-    # Read key for 0.1 seconds
-    read -s -n 1 -t 0.1 key
-    echo -n "$ret$d"
 }
 
 COMPOSE_FILE="./docker-compose.yml"
@@ -56,27 +48,16 @@ export DAMP_HOME_DIRECTORY="./"
 # Start containers
 docker compose -f $COMPOSE_FILE $PROFILE up -d
 
-main(){
-    # create a window
-    window "BTS SIO : DAMP" "blue" "50%"
-        append "MySQL : localhost:$MYSQL_PORT"
-        addsep
-        append "HTTP / PHP : http://localhost:$HTTP_PORT"
-        addsep
-        append "PhpMyAdmin : http://localhost:$PMA_PORT"
-        if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
-        then
-          addsep
-          append "MongoDB : localhost:$MONGO_PORT"
-        fi
-    endwin
-}
-
 clear
-parse_args $@
-bsc_term_init
-bsc_init_chars
-__display
+
+echo "DAMP est démarré"
+echo "MySQL : localhost:$MYSQL_PORT"
+echo "HTTP / PHP : http://localhost:$HTTP_PORT"
+echo "PhpMyAdmin : http://localhost:$PMA_PORT"
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+then
+  echo "MongoDB : localhost:$MONGO_PORT"
+fi
 
 # Wait for user input
 echo ""
