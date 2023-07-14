@@ -31,10 +31,10 @@ Invoke-Expression -Command "docker compose -f $COMPOSE_FILE $PROFILE down"
 echo "Démarrage en cours de DAMP"
 
 # Scan ports and select free ports
-$MYSQL_PORT = Get-FreePort 3306 3316
-$HTTP_PORT = Get-FreePort 8080 8099
-$PMA_PORT = Get-FreePort 9090 9099
-$MONGO_PORT = Get-FreePort 27017 27027
+$MYSQL_PORT = 3306 # Get-FreePort 3306 3316
+$HTTP_PORT =  8080 # Get-FreePort 8080 8099
+$PMA_PORT = 9009 # Get-FreePort 9090 9099
+$MONGO_PORT = 27017 # Get-FreePort 27017 27027
 
 # Set environment variables
 $env:DAMP_MYSQL_PORT = $MYSQL_PORT
