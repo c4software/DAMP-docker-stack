@@ -28,6 +28,8 @@ $env:DAMP_DB_PORT = "3306"; $env:DAMP_WEB_PORT = "8080"; $env:DAMP_PMA_PORT = "9
 
 Invoke-Expression -Command "docker compose -f $COMPOSE_FILE $PROFILE down"
 
+echo "Démarrage en cours de DAMP"
+
 # Scan ports and select free ports
 $MYSQL_PORT = Get-FreePort 3306 3316
 $HTTP_PORT = Get-FreePort 8080 8099
@@ -42,8 +44,6 @@ $env:DAMP_MONGO_PORT = $MONGO_PORT
 $env:DAMP_HOME_DIRECTORY = "./"
 
 $env:DAMP_DB_PORT = $MYSQL_PORT; $env:DAMP_WEB_PORT = $HTTP_PORT; $env:DAMP_PMA_PORT = $PMA_PORT; $env:DAMP_MONGO_PORT = $MONGO_PORT; $env:DAMP_HOME_DIRECTORY = "./"; 
-
-echo "Démarrage en cours de DAMP"
 
 Invoke-Expression -Command "docker compose -f $COMPOSE_FILE $PROFILE up -d"
 
@@ -64,4 +64,4 @@ if ($response.toString().StartsWith("y")) {
 $x = [System.Console]::ReadKey()
 
 # Stop containers
-Invoke-Expression -Command "docker-compose -f $COMPOSE_FILE $PROFILE up -d"
+Invoke-Expression -Command "docker-compose -f $COMPOSE_FILE $PROFILE down"
