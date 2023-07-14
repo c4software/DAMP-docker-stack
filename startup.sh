@@ -31,7 +31,7 @@ export DAMP_MONGO_PORT=""
 export DAMP_HOME_DIRECTORY="./"
 
 # Stop containers
-docker-compose -f $COMPOSE_FILE down
+docker-compose -f $COMPOSE_FILE $PROFILE down
 
 # Scan ports and select free ports
 MYSQL_PORT=$(get_free_port 3306 3316)
