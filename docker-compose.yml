@@ -53,3 +53,12 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: root
     volumes:
       - ${DAMP_HOME_DIRECTORY}data/mongodb/:/data/db
+
+  mailhog:
+    profiles:
+      - mailhog
+    image: mailhog/mailhog
+    restart: unless-stopped
+    ports:
+      - ${DAMP_MAIL_PORT}:1025
+      - ${DAMP_MAIL_PORT_WEB}:8025
