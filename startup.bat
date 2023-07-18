@@ -1,21 +1,24 @@
 @echo off
+chcp 437 >nul
 Setlocal EnableDelayedExpansion
 
 rem Set the compose file and profile
 set COMPOSE_FILE="./docker-compose.yml"
 set PROFILE=--profile default
 
-rem Ask the user if they want to start mongo
-echo Voulez-vous demarrer MongoDB? (y/N)
+echo -----------------------------------
+echo Voulez-vous demarrer MongoDB? (o/N)
+echo -----------------------------------
 set /p mongo=""
-if "%mongo%" == "y" (
+if "%mongo%" == "o" (
   set PROFILE=--profile mongo !PROFILE!
 )
 
-rem Ask the user if they want to start MailHog
-echo Voulez-vous demarrer MailHog? (y/N)
+echo -----------------------------------
+echo Voulez-vous demarrer MailHog? (o/N)
+echo -----------------------------------
 set /p mailhog=""
-if "%mailhog%" == "y" (
+if "%mailhog%" == "o" (
   set PROFILE=--profile mailhog %PROFILE%
 )
 
@@ -34,21 +37,27 @@ docker compose -f %COMPOSE_FILE% %PROFILE% down
 rem Start containers
 docker compose -f %COMPOSE_FILE% %PROFILE% up -d
 
+cls
 
-rem Print the start message
-echo DAMP is started
-echo MySQL : localhost:%DAMP_DB_PORT%
-echo HTTP / PHP : http://localhost:%DAMP_WEB_PORT%
-echo PhpMyAdmin : http://localhost:%DAMP_PMA_PORT%
-if "%mongo%" == "y" (
-  echo MongoDB : localhost:%DAMP_MONGO_PORT%
+echo --------------------------------
+echo  DAMP - Docker Apache MySQL PHP 
+echo --------------------------------
+echo.
+echo.
+echo - MySQL : localhost:%DAMP_DB_PORT%
+echo - HTTP / PHP : http://localhost:%DAMP_WEB_PORT%
+echo - PhpMyAdmin : http://localhost:%DAMP_PMA_PORT%
+if "%mongo%" == "o" (
+  echo - MongoDB : localhost:%DAMP_MONGO_PORT%
 )
-if "%mailhog%" == "y" (
-  echo MailHog : http://localhost:%DAMP_MAIL_PORT% / smtp://localhost:%DAMP_MAIL_PORT_WEB%
+if "%mailhog%" == "o" (
+  echo - MailHog : http://localhost:%DAMP_MAIL_PORT% / smtp://localhost:%DAMP_MAIL_PORT_WEB%
 )
+echo.
+echo.
+echo ----------------------------------------
+echo  Appuyez sur une touche pour quitter...
+echo ----------------------------------------
+pause >nul
 
-rem Wait for user input
-pause
-
-rem Stop containers
 docker compose -f %COMPOSE_FILE% %PROFILE% down
